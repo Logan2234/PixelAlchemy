@@ -1,2 +1,10 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+</script>
+
+<h1 class="text-center text-3xl font-bold">Welcome to PixelAlchemy</h1>
+
+<ul>
+  <li>
+    <a href="/simulation/falling-sand" class="text-blue-500 hover:underline">Falling Sand</a>
+  </li>
+</ul>
