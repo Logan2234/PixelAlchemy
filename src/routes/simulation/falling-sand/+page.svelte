@@ -1,17 +1,55 @@
 <script lang="ts">
   import Canvas from '$lib/components/canvas.svelte';
+  import type { IShortcut } from '$lib/types/shortcuts';
   import p5 from 'p5';
   import { innerHeight, innerWidth } from 'svelte/reactivity/window';
 
   const xSize = $derived(innerWidth.current!);
   const ySize = $derived(innerHeight.current!);
 
+  let play = $state(true);
   let brushSize = $state(5);
   let cellSize = $state(7);
+  let frameRate = $state(30);
 
   let color = 360;
   let showTooltip = true;
   let mouseHoversCanvas = false;
+
+  const shortcuts: IShortcut[] = [
+    {
+      key: ' ',
+      description: 'Toggle Play/Pause',
+      action: (_) => {
+        play = !play;
+      }
+    },
+    {
+      key: 'r',
+      description: 'Reset Grid',
+      action: (p5) => {
+        p5.background(20);
+        grid = buildNewGrid();
+        nextGrid = buildNewGrid();
+      }
+    },
+    {
+      key: '+',
+      description: 'Increase Cell Size',
+      action: (p5) => {
+        p5.background(20);
+        cellSize = Math.min(cellSize + 1, 50);
+      }
+    },
+    {
+      key: '-',
+      description: 'Decrease Cell Size',
+      action: (p5) => {
+        p5.background(20);
+        cellSize = Math.max(cellSize - 1, 5);
+      }
+    }
+  ];
 
   const buildNewGrid = () => Array.from({ length: rows }, () => Array(cols).fill(0));
 
@@ -53,7 +91,6 @@
   const sketch = (p: p5) => {
     p.setup = () => {
       const canvas = p.createCanvas(xSize, ySize);
-      p.frameRate(30);
 
       canvas.mouseOver(() => {
         mouseHoversCanvas = true;
@@ -63,6 +100,13 @@
         mouseHoversCanvas = false;
       });
 
+      p.keyPressed = () => {
+        const shortcut = shortcuts.find((s) => s.key.toLowerCase() === p.key.toLowerCase());
+        if (shortcut) {
+          shortcut.action(p);
+        }
+      };
+
       p.noSmooth().noStroke();
       p.background(0, 0, 20);
       p.colorMode('hsb', 360, 255, 255);
@@ -70,6 +114,7 @@
 
     p.draw = () => {
       p.background(0, 0, 20);
+      p.frameRate(frameRate);
       p.fill(0, 0, 255);
 
       if (showTooltip) {
@@ -107,12 +152,14 @@
         }
       }
 
-      moveSand();
+      if (play) {
+        moveSand();
+      }
     };
   };
 </script>
 
-<Canvas {sketch}>
+<Canvas {sketch} {shortcuts}>
   {#snippet options()}
     <div class="flex flex-col gap-1">
       <label for="brushSize" class="text-center text-sm">Brush size: {brushSize}</label>
@@ -121,6 +168,10 @@
     <div class="flex flex-col gap-1">
       <label for="cellSize" class="text-center text-sm">Cell size: {cellSize}</label>
       <input id="cellSize" type="range" min={3} max={25} bind:value={cellSize} />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="frameRate" class="text-center text-sm">Frame rate: {frameRate}</label>
+      <input id="frameRate" type="range" min={5} max={60} bind:value={frameRate} />
     </div>
   {/snippet}
 </Canvas>

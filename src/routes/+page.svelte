@@ -7,4 +7,7 @@
   <li>
     <a href="/simulation/falling-sand" class="text-blue-500 hover:underline">Falling Sand</a>
   </li>
+  <li>
+    <a href="/simulation/game-of-life" class="text-blue-500 hover:underline">Game of Life</a>
+  </li>
 </ul>
