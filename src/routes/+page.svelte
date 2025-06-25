@@ -13,7 +13,7 @@
 
 <div class="flex flex-col flex-wrap gap-8 p-8 sm:flex-row">
   {#each links as { href, label, notImplemented = false }}
-    <a href={notImplemented ? '/' : href} class="flex-1 rounded-xl bg-red-50 sm:flex-initial">
+    <a href={notImplemented ? '/' : href} class="flex-1 rounded-xl sm:flex-initial">
       <div
         class="{notImplemented
           ? 'bg-opacity-20 cursor-not-allowed bg-[repeating-linear-gradient(30deg,_#FFFF0044_0_10px,_#00000044_10px_20px)] opacity-75'
