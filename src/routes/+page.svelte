@@ -2,7 +2,7 @@
   const links = [
     { href: '/simulation/falling-sand', label: 'Falling Sand' },
     { href: '/simulation/game-of-life', label: 'Game of Life' },
-    { href: '/simulation/stars', label: 'Moving stars', notImplemented: true },
+    { href: '/simulation/moving-stars', label: 'Moving stars' },
     { href: '/simulation/menger-sponge', label: 'Menger sponge', notImplemented: true },
     { href: '/simulation/mandlebrot', label: 'Mandlebrot', notImplemented: true },
     { href: '/simulation/particles', label: 'Particles', notImplemented: true }
